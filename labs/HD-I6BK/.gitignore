@@ -1,0 +1,13 @@
+
+# Local Terraform state, plans, and provider cache — never commit these.
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Variable files that may contain sensitive values
+*.tfvars
+*.tfvars.json
+!example.tfvars
