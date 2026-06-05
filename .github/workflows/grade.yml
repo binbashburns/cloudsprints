@@ -1,0 +1,27 @@
+name: CloudSprints Grader
+
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cloudsprints/sprintctl-action@v1
+        id: grading
+        with:
+          api-url: 'https://cloudsprints.com'
+          # Uncomment to enable GitHub App PR comments:
+          # callback-url: 'https://cloudsprints.com/api/github/grading-result'
+
+      - name: Grading Summary
+        if: always()
+        run: |
+          echo "## CloudSprints Grading Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Student:** ${{ steps.grading.outputs.email }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Score:** ${{ steps.grading.outputs.passed }}/${{ steps.grading.outputs.total }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ steps.grading.outputs.status }}" >> $GITHUB_STEP_SUMMARY
